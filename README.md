@@ -25,19 +25,42 @@ This project implements a full ETL, training, analysis, and visualization pipeli
 
 ---
 
-## ⚙️ Funcionalidades / Features
+## 📊 Visuals
 
-- Extrae y transforma datos históricos (`SPY`, `QQQ`, `AMZN`, `BTC-USD`, etc.)
-- Aplica indicadores técnicos: RSI, MACD, SMA, Bollinger, ATR...
-- Entrena modelos de:
-  - Regresión (retornos esperados)
-  - Clasificación direccional (probabilidad de subida)
-- Genera KPIs y visualizaciones:
-  - Top-N alcistas y bajistas (calls / puts)
-  - Tabla de probabilidades y señales
-  - Mapa de calor de modelos
-- Dashboard interactivo (`streamlit`)
-- Backtesting básico de señales
+**Heatmap de probabilidades (última corrida):**
+![Heatmap](images/heatmap_probs.png)
+
+**Equity por señales del clasificador:**
+![Backtest Equities](reports/backtest_traces_equity.png)
+
+### 📈 Diagrama de flujo de datos (pipeline)
+```mermaid
+flowchart LR
+    A[Usuario] -->|Fechas & Guardar CSV| M[menu.py]
+
+    subgraph ETL
+      M --> E[etl/extract.py]
+      E --> T[etl/transform.py]
+      T --> L[etl/load.py]
+      L --> R1[data/raw/*.csv]
+    end
+
+    subgraph Entrenamiento
+      R1 --> REG[models/train_all.py<br/>Regresión (RMSE/MAE + preds)]
+      R1 --> CLS[models/train_direction.py<br/>Clasificación (proba_up)]
+      REG --> P[data/preds/*.csv]
+      CLS --> S1[models/prob_summary.csv]
+      CLS --> TR[models/traces/*_trace.csv]
+    end
+
+    subgraph Salidas
+      S1 -->|Top-N, tabla| D1[apps/dashboard_app.py]
+      S1 -->|Heatmap| IMG[images/heatmap_probs.png]
+      P --> BT[models/backtest.py]
+      TR --> BT
+      BT --> REP[reports/*.csv, *.png]
+    end
+```
 
 ---
 
@@ -64,7 +87,7 @@ ia-financiera/
 ## 🚀 ¿Cómo ejecutar el proyecto? / How to run the project
 
 ```bash
-git clone https://github.com/tuusuario/ia-financiera.git
+git clone https://github.com/ShadowBlack33/ia-financiera.git
 cd ia-financiera
 
 python -m venv .venv
@@ -82,44 +105,29 @@ python menu.py
 
 ---
 
-## 📊 Visualización y análisis / Visualization & Analysis
-
-### 🔥 Dashboard interactivo / Interactive Dashboard
+## 📊 Dashboard interactivo / Interactive Dashboard
 
 ```bash
 streamlit run apps/dashboard_app.py
 ```
 
-Incluye / Includes:
+Incluye:
 - Top‑N alcistas y bajistas
 - Mapa de calor (LogReg / RF / Ensemble)
 - Tabla detallada por ticker
 
-### 📈 Backtest de señales / Signal Backtesting
+---
+
+## 📈 Backtest de señales / Signal Backtesting
 
 ```bash
 python -m models.backtest
 ```
 
-Genera / Generates:
+Genera:
 - `backtest_preds_summary.csv`
 - `backtest_traces_summary.csv`
 - `backtest_traces_equity.png`
-
----
-
-## ✅ Estado del proyecto / Project Status
-
-| Módulo / Module     | Estado / Status |
-|---------------------|------------------|
-| ETL                 | ✅ Completo / Complete |
-| Regresión / Regression | ✅ |
-| Clasificación / Classification | ✅ |
-| Top‑N + Probabilidades | ✅ |
-| Heatmap + Dashboard | ✅ |
-| Backtesting         | ✅ |
-| Logging + Seeds     | ✅ |
-| Publicación / Repo listo | ✅ |
 
 ---
 
