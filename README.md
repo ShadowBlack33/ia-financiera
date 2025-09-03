@@ -146,5 +146,3 @@ python -m models.backtest
 ## 📜 License
 
 MIT © 2025 — ShadowBlack33
-
-````
