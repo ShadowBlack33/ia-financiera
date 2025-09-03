@@ -1,0 +1,31 @@
+tickers:
+  - SPY
+  - QQQ
+  - DIA
+  - IWM
+  - AAPL
+  - MSFT
+  - TSLA
+  - NVDA
+  - AMZN
+  - GOOGL
+  - META
+  - GLD
+  - TLT
+  - UUP
+  - USO
+start_date: "2015-01-01"
+end_date: null
+interval: "1d"
+data_dir: "data/raw"
+logs_dir: "logs"
+features:
+  returns: "log"
+  sma_windows: [10, 20, 50]
+  ema_windows: [12, 26]
+  rsi_windows: [14]
+  macd: { fast: 12, slow: 26, signal: 9 }
+  bollinger: { window: 20, k: 2.0 }
+  atr_window: 14
+  lags: [1, 2, 3, 5]
+seed: 42
