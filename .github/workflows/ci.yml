@@ -9,6 +9,7 @@ on:
 jobs:
   backtest:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,7 +27,7 @@ jobs:
       - name: Run CI backtest (deterministic)
         run: python models/backtest_ci.py
 
-      - name: Smoke tests (file-scoped)
+      - name: Smoke tests (only test_smoke.py)
         env:
           PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
         run: python -m pytest -q tests/test_smoke.py
