@@ -9,7 +9,6 @@ on:
 jobs:
   backtest:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,7 +29,7 @@ jobs:
       - name: Smoke tests (file-scoped)
         env:
           PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
-        run: pytest -q tests/test_smoke.py
+        run: python -m pytest -q tests/test_smoke.py
 
       - name: Upload report artifact
         uses: actions/upload-artifact@v4
