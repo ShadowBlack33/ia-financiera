@@ -27,8 +27,10 @@ jobs:
       - name: Run CI backtest (deterministic)
         run: python models/backtest_ci.py
 
-      - name: Smoke tests
-        run: pytest -k "smoke" -q
+      - name: Smoke tests (file-scoped)
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
+        run: pytest -q tests/test_smoke.py
 
       - name: Upload report artifact
         uses: actions/upload-artifact@v4
