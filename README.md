@@ -1,73 +1,52 @@
 # 💹 IA-FINANCIERA · ETL → Machine Learning → KPIs & Visuals
 ![CI](https://github.com/ShadowBlack33/ia-financiera/actions/workflows/ci.yml/badge.svg)
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB)](https://www.python.org/)
-[![pandas](https://img.shields.io/badge/pandas-2.x-150458)](https://pandas.pydata.org/)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.x-f7931e)](https://scikit-learn.org/)
-[![streamlit](https://img.shields.io/badge/Streamlit-Dashboard-E64A19)](https://streamlit.io/)
-
-**Proyecto completo de IA financiera** con pipeline ETL, clasificación direccional (UP/DOWN) y visualizaciones.  
-Incluye procesamiento de datos financieros, entrenamiento de modelos, ranking de activos, heatmap de probabilidades y dashboard interactivo.
-
-> 📈 Datos obtenidos desde Yahoo Finance (`yfinance`).  
-> ⚠️ Este proyecto es educativo — **no representa asesoría financiera.**
+> **Author**: Carlos Andrés Orozco Caicedo · Colombia 🇨🇴  
+> End-to-end financial ML pipeline with ETL, technical indicators, ensemble modeling, and dashboards — production-ready with CI/CD.
 
 ---
 
-## 🧭 Tabla de contenido
+## 🌐 Overview
 
-- [🎯 Objetivo](#-objetivo)
-- [🖼️ Vista previa](#-vista-previa)
-- [✨ Funcionalidades](#-funcionalidades)
-- [🏗️ Arquitectura](#-arquitectura)
-- [🧱 Esquema Estrella](#-esquema-estrella)
-- [📚 Diccionario de datos](#-diccionario-de-datos)
-- [⚙️ Instalación y uso](#️-instalación-y-uso)
-- [🧾 Configuración YAML](#-configuración-yaml)
-- [📊 KPIs y detalles del modelo](#-kpis-y-detalles-del-modelo)
-- [🖥️ Dashboard](#-dashboard)
-- [📈 Backtest](#-backtest)
-- [🔁 Reproducibilidad y CI](#-reproducibilidad-y-ci)
-- [🛠️ Troubleshooting](#-troubleshooting)
-- [🗺️ Roadmap](#-roadmap)
-- [📜 Licencia](#-licencia)
-- [👤 Autor](#-autor)
+**IA-FINANCIERA** is a complete AI pipeline for directional prediction in financial markets. It extracts and transforms OHLCV time series data, computes technical indicators, trains ensemble models, ranks assets based on upward probability (PROBA_UP), and displays results via a dashboard and heatmaps. The project is reproducible, modular, and integrated with GitHub Actions (CI).
 
 ---
 
-## 🎯 Objetivo
+## 🎯 Goal
 
-- Desarrollar un pipeline ETL + ML para predecir la **dirección del mercado** (UP/DOWN).
-- Usar ensamble de modelos para obtener `PROBA_UP` (probabilidad de alza).
-- Visualizar y rankear los activos más alcistas/bajistas.
-- Ofrecer resultados en consola, CSV, PNG y dashboard.
+- Build a clean ETL → ML pipeline to predict market direction (UP/DOWN).
+- Generate ensemble-based probability scores (LogReg + RandomForest).
+- Visualize results in heatmaps, ranked lists, and a dashboard.
+- Provide reproducible, modular, and CI-enabled workflow.
 
 ---
 
-## 🖼️ Vista previa
+## ✨ Features
+
+- 🔁 ETL from Yahoo Finance via `yfinance`
+- 📈 Technical indicators: RSI, MACD, SMA, EMA, Bollinger Bands, ATR
+- 🤖 Ensemble classifier (Logistic Regression + Random Forest)
+- 📊 Ranked signals: Top-N bullish and bearish tickers
+- 🖼️ Probability heatmap (PNG)
+- 🖥️ Streamlit dashboard (optional)
+- 📄 Outputs in CSV, PNG, and colored console
+- 🧪 Optional backtesting per asset
+- ✅ GitHub Actions with deterministic CI backtest and smoke test
+- 📦 Professional project structure (etl/, models/, images/, reports/, etc.)
+
+---
+
+## 🖼️ Preview
 
 <p align="center">
-  <img src="images/heatmap_probs.png" alt="Heatmap de probabilidades" width="70%">
+  <img src="images/heatmap_probs.png" alt="Probability Heatmap" width="75%" />
 </p>
 
-> Generado por `scripts/plot_heatmap.py`
+> Generated via `scripts/plot_heatmap.py` using `models/prob_summary.csv`
 
 ---
 
-## ✨ Funcionalidades
-
-- 🔁 **ETL**: descarga y transforma series OHLCV.
-- 📈 **Indicadores**: RSI, MACD, SMA, EMA, Bollinger Bands, ATR.
-- 🤖 **Modelos**: Logistic Regression + Random Forest → Ensemble.
-- 📊 **Top‑N ranking**: calls (alcistas) / puts (bajistas).
-- 🌡️ **Heatmap visual**: probabilidades por ticker.
-- 🖥️ **Dashboard interactivo** con Streamlit.
-- 🧪 **Backtest opcional** y métricas por archivo.
-- ✅ **CI determinístico** (backtest + test mínimo en GitHub Actions).
-
----
-
-## 🏗️ Arquitectura
+## 🏗️ Architecture
 
 ```mermaid
 flowchart LR
@@ -85,7 +64,7 @@ flowchart LR
 
 ---
 
-## 🧱 Esquema Estrella
+## 📦 Star Schema
 
 ```mermaid
 erDiagram
@@ -123,52 +102,46 @@ erDiagram
 
 ---
 
-## 📚 Diccionario de datos
+## 📚 Data Dictionary
 
-**`models/prob_summary.csv`**
-
-| Campo          | Tipo   | Descripción                           |
-| -------------- | ------ | ------------------------------------- |
-| `ticker`       | string | Símbolo del activo (AAPL, BTC, etc.)  |
-| `date`         | date   | Fecha de predicción                   |
-| `proba_logreg` | float  | Probabilidad de subida (LogReg)       |
-| `proba_rf`     | float  | Probabilidad de subida (RandomForest) |
-| `proba_ens`    | float  | Promedio del ensamble                 |
-| `pred`         | string | Predicción final: UP / DOWN           |
+| Column         | Type   | Description                        |
+| -------------- | ------ | ---------------------------------- |
+| `ticker`       | string | Asset symbol (e.g., AAPL, BTC-USD) |
+| `date`         | date   | Prediction date                    |
+| `proba_logreg` | float  | Logistic Regression UP probability |
+| `proba_rf`     | float  | Random Forest UP probability       |
+| `proba_ens`    | float  | Ensemble average probability       |
+| `pred`         | string | Final prediction: `UP` or `DOWN`   |
 
 ---
 
-## ⚙️ Instalación y uso
+## ⚙️ Installation & Usage
 
 ```bash
-# Clonar y entrar al repo
+# Clone and navigate
 git clone https://github.com/ShadowBlack33/ia-financiera.git
 cd ia-financiera
 
-# Crear entorno virtual
+# Create virtual environment
 python -m venv .venv
-.venv\Scripts\activate    # Windows
-# source .venv/bin/activate  # Linux/macOS
+.venv\Scripts\activate     # Windows
+# source .venv/bin/activate  # Linux/Mac
 
-# Instalar dependencias
+# Install dependencies
 pip install -r requirements.txt
 
-# Ejecutar el pipeline completo
+# Run full pipeline via menu
 python menu.py
 ```
 
 ---
 
-## 🧾 Configuración YAML
-
-**config.yaml**
+## 🧾 Configuration (config.yaml)
 
 ```yaml
 start_date: "2015-01-01"
-end_date: ""          # vacío = hasta hoy
+end_date: ""          # empty = up to latest
 interval: "1d"
-
-data_dir: "data/raw"
 default_top_n: 10
 
 features:
@@ -191,88 +164,99 @@ features:
 
 ---
 
-## 📊 KPIs y detalles del modelo
+## 📊 KPIs & Model Details
 
-* **PROBA\_UP**: probabilidad estimada de alza (ensamble).
-* **Top-N**: activos con mayor o menor probabilidad.
-* **Split**: hold-out temporal (`test_size=200`, `horizon=1`).
-* **Embargo**: opcional para prevenir leakage (ej. 5 velas).
+| Metric          | Description                               |
+| --------------- | ----------------------------------------- |
+| PROBA\_UP       | Probability of upward movement (ensemble) |
+| Top‑N Ranking   | Sort by `proba_ens` (bullish / bearish)   |
+| CSV Summary     | `models/prob_summary.csv`                 |
+| Heatmap         | `images/heatmap_probs.png`                |
+| Optional Traces | `models/traces/*.csv` per ticker          |
+
+* Hold-out split on last `N` bars (e.g., 200)
+* Optional embargo window to prevent leakage
 
 ---
 
-## 🖥️ Dashboard
+## 🖥️ Dashboard (optional)
 
 ```bash
 streamlit run apps/dashboard_app.py
 ```
 
-Incluye:
+Includes:
 
-* Ranking Top‑N
-* Heatmap de probabilidades
-* Tabla resumen
+* Top‑N ranking
+* Probability heatmap (logreg, RF, ensemble)
+* Summary table
 
 ---
 
-## 📈 Backtest
+## 📈 Backtest (optional)
 
 ```bash
 python -m models.backtest
 ```
 
-> Salida en `reports/` y trazas por ticker en `models/traces/`.
+Outputs:
+
+* CSVs in `reports/`
+* Per-ticker traces in `models/traces/`
 
 ---
 
-## 🔁 Reproducibilidad y CI
+## 🔁 Reproducibility & CI
 
-* 🎯 `config.yaml` para hiperparámetros y rutas.
-* 📦 `.gitignore` evita subir archivos generados innecesarios.
-* 🧪 **CI en GitHub Actions** con:
+* `config.yaml` controls features, intervals, date range
+* `.gitignore` excludes unnecessary outputs
+* **GitHub Actions** (CI) includes:
 
-  * `models/backtest_ci.py` (backtest determinístico)
-  * `tests/test_smoke.py` (test mínimo)
-* 📁 Artifacts del run: `backtest_ci_report.csv`
+  * 🔹 Deterministic backtest: `models/backtest_ci.py`
+  * 🔹 Smoke test: `tests/test_smoke.py`
+  * 🔹 CI badge: ![CI](https://github.com/ShadowBlack33/ia-financiera/actions/workflows/ci.yml/badge.svg)
+
+Artifact: `backtest-ci-report.csv` (available in each CI run)
 
 ---
 
 ## 🛠️ Troubleshooting
 
-| Problema                      | Solución                                                   |
-| ----------------------------- | ---------------------------------------------------------- |
-| Mermaid no se ve en GitHub    | Usar bloque `mermaid` y evitar comentarios `//`            |
-| Heatmap no aparece            | Asegurar que no esté ignorado en `.gitignore`              |
-| `pandas` no encontrado en CI  | Se excluyen tests pesados usando CI determinístico         |
-| Streamlit no encuentra el CSV | Ejecutar `menu.py` primero para generar `prob_summary.csv` |
-| Falla `yfinance` o timeout    | Reintentar con fechas más cortas o conexión estable        |
+| Issue                        | Solution                                                 |
+| ---------------------------- | -------------------------------------------------------- |
+| Mermaid not rendered         | Use fenced code blocks with `mermaid` syntax             |
+| Heatmap not generated        | Run `menu.py` first and check `.gitignore` exceptions    |
+| Streamlit dashboard error    | Ensure `models/prob_summary.csv` exists                  |
+| CI fails on pandas           | Only lightweight tests run in CI (test\_smoke.py)        |
+| API or rate limit from Yahoo | Reduce date range or increase retries (built-in support) |
 
 ---
 
 ## 🗺️ Roadmap
 
-* [ ] Agregar XGBoost y LightGBM
-* [ ] Backtesting más robusto con métricas tipo Sharpe
-* [ ] Despliegue del dashboard (Streamlit Cloud o Render)
-* [ ] Walk-forward CV y calibration
-* [ ] Registro de modelos por versión
+* [ ] Add support for XGBoost and LightGBM
+* [ ] Walk-forward cross-validation
+* [ ] Backtest metrics: Sharpe ratio, drawdown, win rate
+* [ ] Streamlit Cloud / HuggingFace deployment
+* [ ] Model registry and versioning
 
 ---
 
-## 📜 Licencia
+## 📜 License
 
 **MIT License © 2025 — Carlos Andrés Orozco Caicedo**
 
-> Este proyecto es educativo.
-> **No constituye asesoría financiera ni promueve decisiones de inversión.**
+> This project is for educational and research purposes only.
+> **It does not constitute financial advice. Use at your own risk.**
 
 ---
 
-## 👤 Autor
+## 👤 Author
 
 **Carlos Andrés Orozco Caicedo**
-*Data Engineering & Machine Learning · Colombia 🇨🇴*
+📍 Colombia · Data Engineering & AI Student
 
 GitHub: [ShadowBlack33](https://github.com/ShadowBlack33)
-Proyecto original: ETL + ML + CI + Visualizaciones para predicción direccional.
+Project Owner and Developer — ETL, ML models, visualizations, CI/CD pipeline.
 
----
+````
