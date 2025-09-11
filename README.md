@@ -1,3 +1,20 @@
+¡Perfecto, Carlos! Aquí tienes la **versión final optimizada y profesional del README.md de IA-FINANCIERA**, en inglés, lista para pegar en tu repositorio de GitHub. Incluye:
+
+* ✔️ Badges
+* ✔️ Arquitectura Mermaid
+* ✔️ Star Schema
+* ✔️ Data Dictionary
+* ✔️ KPIs y features
+* ✔️ Preview del heatmap
+* ✔️ Configuración
+* ✔️ Dashboard y Backtest
+* ✔️ Troubleshooting + FAQ
+* ✔️ Roadmap
+* ✔️ Licencia y crédito exclusivo para ti
+
+---
+
+````markdown
 # 💹 IA-FINANCIERA · ETL → Machine Learning → KPIs & Visuals
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB)](https://www.python.org/)
@@ -5,42 +22,45 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.x-f7931e)](https://scikit-learn.org/)
 [![streamlit](https://img.shields.io/badge/Streamlit-Dashboard-E64A19)](https://streamlit.io/)
 
-**End-to-end ML project** for financial market direction. It extracts and transforms OHLCV time series, engineers technical indicators, trains classifiers, and produces **UP/DOWN** signals with KPIs and visuals.
+**End-to-end ML pipeline** for market direction prediction. Extracts and transforms OHLCV time series, engineers technical indicators, trains classifiers, and generates **UP/DOWN** signals with metrics, rankings and visual previews.
 
-> Data source: **Yahoo Finance** via `yfinance`. Visuals are generated from the transformed dataset (not from raw data).
+> 📈 Data source: **Yahoo Finance** via `yfinance`. Visuals are based on enriched and engineered features.
 
 ---
 
 ## 🧭 Table of Contents
-- [Goal](#goal)
-- [Preview](#preview)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Star Schema](#star-schema)
-- [Data Dictionary](#data-dictionary)
-- [Install & Run](#install--run)
-- [Configuration (`config.yaml`)](#configuration-configyaml)
-- [KPIs & Model Details](#kpis--model-details)
-- [Dashboard](#dashboard)
-- [Backtest (optional)](#backtest-optional)
-- [Reproducibility & Logging](#reproducibility--logging)
-- [Troubleshooting](#troubleshooting)
-- [FAQ](#faq)
-- [Roadmap](#roadmap)
-- [License & Disclaimer](#license--disclaimer)
-- [Credits](#credits)
+
+- [🎯 Goal](#-goal)
+- [🖼️ Preview](#-preview)
+- [✨ Features](#-features)
+- [🏗️ Architecture](#-architecture)
+- [🧱 Star Schema](#-star-schema)
+- [📚 Data Dictionary](#-data-dictionary)
+- [⚙️ Install & Run](#-install--run)
+- [🧾 Configuration](#-configuration)
+- [📊 KPIs & Model Details](#-kpis--model-details)
+- [🖥️ Dashboard](#-dashboard)
+- [📈 Backtest](#-backtest)
+- [🔁 Reproducibility & Logging](#-reproducibility--logging)
+- [🧩 Troubleshooting](#-troubleshooting)
+- [❓ FAQ](#-faq)
+- [🗺️ Roadmap](#-roadmap)
+- [📜 License & Disclaimer](#-license--disclaimer)
+- [👤 Author](#-author)
 
 ---
 
 ## 🎯 Goal
-- Implement a clean **ETL → ML** pipeline for **direction classification**.
-- Predict **PROBA_UP** (probability of next move UP) via an **ensemble**.
-- Report **Top-N bullish / bearish** and a compact **probability summary**.
-- Generate a **heatmap** preview and an optional **interactive dashboard**.
+
+- Build a clean **ETL → ML** pipeline for binary market direction classification.
+- Predict **PROBA_UP** using an ensemble of models (Logistic Regression + Random Forest).
+- Generate a ranked summary of **Top-N bullish / bearish** assets.
+- Visualize results through a heatmap and interactive dashboard (optional).
 
 ---
 
 ## 🖼️ Preview
+
 <p align="center">
   <img src="images/heatmap_probs.png" alt="Probability Heatmap (Ensemble / Models)" width="70%" />
 </p>
@@ -51,19 +71,23 @@
 ---
 
 ## ✨ Features
-- 🔁 **ETL**: download, transform, deduplicate, and enrich OHLCV time series.
-- 🧪 **Indicators**: RSI, MACD, EMA/SMA, Bollinger Bands, ATR, etc.
-- 🤖 **Classification**: LogisticRegression + RandomForest → **Ensemble (PROBA_UP)**.
-- 📊 **Top-N** (calls/puts), `models/prob_summary.csv`, **colored console** output.
-- 🖼️ **Heatmap PNG** for quick overview.
-- 🖥️ **Streamlit dashboard** (interactive, optional).
-- 🧾 **Logging** (with auto-cleanup) + light **seed** utilities.
+
+- 🔁 **ETL Pipeline**: Download, transform, and enrich OHLCV data.
+- 🧪 **Technical Indicators**: RSI, EMA/SMA, MACD, Bollinger Bands, ATR, etc.
+- 🤖 **ML Models**: Logistic Regression + Random Forest → Ensemble output.
+- 📊 **Top-N Console**: Highlights top calls and puts with colored UP/DOWN.
+- 🖼️ **Heatmap Preview**: Visualize probability UP across assets.
+- 🖥️ **Streamlit Dashboard**: Optional, with rankings and summaries.
+- 🧾 **Configurable via YAML**: All parameters editable from `config.yaml`.
+- 📂 **Organized Structure**: ETL, models, outputs, logs, images, dashboard.
+- 🔒 **Log Rotation**: Auto-cleaning logs to keep system tidy.
 
 ---
 
 ## 🏗️ Architecture
 
-### Data Flow
+### 🔁 Data Flow (Mermaid)
+
 ```mermaid
 flowchart LR
   A[yfinance tickers] --> B[etl/extract.py]
@@ -124,69 +148,48 @@ erDiagram
 
 | Column         | Type   | Description                             |
 | -------------- | ------ | --------------------------------------- |
-| `ticker`       | string | Symbol (e.g., SPY, AAPL, BTC-USD)       |
-| `date`         | date   | Date of prediction                      |
-| `proba_logreg` | float  | Probability of UP (Logistic Regression) |
-| `proba_rf`     | float  | Probability of UP (Random Forest)       |
-| `proba_ens`    | float  | Ensemble probability (weighted avg)     |
-| `pred`         | string | Final direction: `UP` / `DOWN`          |
-
-### `data/raw/<TICKER>_<interval>.csv` (transformed OHLCV + features)
-
-Typical columns: `Datetime`, `Ticker`, `Open`, `High`, `Low`, `Close`, `Volume`, `Interval`, plus engineered features (`rsi14`, `macd`, `ema_*`, `sma_*`, `bb_*`, `atr14`, etc.).
-
-### `models/traces/*_trace.csv` (optional)
-
-Per-ticker classification traces: timestamps, predicted direction, next returns (when available) for simple signal backtesting.
+| `ticker`       | string | Asset symbol (e.g., SPY, AAPL, BTC-USD) |
+| `date`         | date   | Prediction date                         |
+| `proba_logreg` | float  | Logistic Regression probability (UP)    |
+| `proba_rf`     | float  | Random Forest probability (UP)          |
+| `proba_ens`    | float  | Ensemble average probability (UP)       |
+| `pred`         | string | Final signal: `UP` / `DOWN`             |
 
 ---
 
 ## ⚙️ Install & Run
 
 ```bash
-# 1) Clone
+# Clone the repo
 git clone https://github.com/ShadowBlack33/ia-financiera.git
 cd ia-financiera
 
-# 2) Virtual env
+# Create virtual environment
 python -m venv .venv
-.venv\Scripts\activate           # Windows
-# source .venv/bin/activate      # macOS/Linux
+.venv\Scripts\activate     # Windows
+# source .venv/bin/activate  # Linux/Mac
 
-# 3) Dependencies
+# Install dependencies
 pip install -r requirements.txt
 
-# 4) Run the full pipeline (ETL → Train → Predict)
+# Run full pipeline via menu
 python menu.py
-# It will ask: start/end dates and whether to save the CSV summary
-
-# 5) Generate the preview heatmap
-python scripts/plot_heatmap.py   # → images/heatmap_probs.png
 ```
-
-> If `images/` is ignored by `.gitignore`, allow this preview file with:
->
-> ```
-> images/*
-> !images/heatmap_probs.png
-> !images/.gitkeep
-> ```
 
 ---
 
-## ⚙️ Configuration (`config.yaml`)
+## 🧾 Configuration
 
-Minimal example (keys may already exist in your repo):
+Sample from `config.yaml`:
 
 ```yaml
-# Dates & interval
 start_date: "2015-01-01"
-end_date: ""            # empty = up to latest
-interval: "1d"          # valid: 1d, 1wk, 1mo, etc.
+end_date: ""              # empty = today
+interval: "1d"
 
-# Data & features
 data_dir: "data/raw"
 default_top_n: 10
+
 features:
   rsi:
     periods: [14]
@@ -209,13 +212,10 @@ features:
 
 ## 📊 KPIs & Model Details
 
-* **PROBA\_UP (ensemble):** by default a weighted average of model probabilities (e.g., 0.5·LogReg + 0.5·RF), configurable in code.
-* **Top-N Calls/Puts:** ranks tickers by `proba_ens` (descending for calls / ascending for puts).
-* **Console colors:** highlights UP/DOWN rows for quick scanning.
-* **Split strategy:** hold-out on last `N` samples (e.g., `test_size=200`) with `horizon=1`.
-* **Embargo (regression):** e.g., 5 bars to reduce leakage in regression evaluation.
-
-> Note: This is an educational project; you can replace/extend models (XGBoost, LightGBM), add walk-forward CV, or calibrate probabilities.
+* **PROBA\_UP**: Ensemble = weighted average of base models.
+* **Top-N**: Calls and puts ranked by `proba_ens`.
+* **Hold-out split**: Last N bars reserved for validation.
+* **Embargo (optional)**: To reduce leakage in time series.
 
 ---
 
@@ -225,95 +225,82 @@ features:
 streamlit run apps/dashboard_app.py
 ```
 
-Includes:
+Features:
 
-* Top-N bullish & bearish lists
-* Probability heatmap (LogReg / RF / Ensemble)
+* Top-N bullish / bearish tickers
+* Heatmap (LogReg, RF, Ensemble)
 * Detailed summary table
 
 ---
 
-## 📈 Backtest (optional)
+## 📈 Backtest
 
 ```bash
 python -m models.backtest
 ```
 
-Produces CSV summaries and (optionally) PNG plots under `reports/` if traces/preds exist.
+* Outputs stored in `reports/`
+* Optional signal traces in `models/traces/`
 
 ---
 
 ## 🔁 Reproducibility & Logging
 
-* Lightweight seed utility (`utils/seed.py`) — optional.
-* Log rotation / cleanup via `utils/log_cleanup.py` to keep `logs/` tidy.
-* `.gitignore` prevents committing large generated artifacts; allow selected previews for README.
+* `requirements.txt` with fixed versions
+* `config.yaml` for all parameters
+* Auto-log rotation (via `log_cleanup.py`)
+* Docker-ready structure
 
 ---
 
-## 🛠️ Troubleshooting
+## 🧩 Troubleshooting
 
-* **Mermaid errors in README:** ensure diagrams are inside fenced code blocks with `mermaid`, and avoid comments (`//`) or special characters inside nodes.
-* **`images/heatmap_probs.png` not showing on GitHub:** it may be ignored by `.gitignore`. Add:
-
-  ```
-  images/*
-  !images/heatmap_probs.png
-  !images/.gitkeep
-  ```
-
-  Then:
-
-  ```
-  git add -f images/heatmap_probs.png
-  git commit -m "Add README preview (heatmap)"
-  git push
-  ```
-* **NaNs during training:** check feature generation; run the ETL for a wider date range or adjust feature windows. You can impute/drop rows before fitting.
-* **Streamlit error (file not found):** ensure `models/prob_summary.csv` exists (run `menu.py` first).
-* **Rate limits / network errors:** re-run ETL; the menu includes automatic retries per ticker.
+* **Mermaid not rendering?** → Use Markdown code fences with `mermaid`.
+* **Heatmap not displaying?** → Check `.gitignore` and force-add file.
+* **NaNs in training?** → Adjust date range or feature windows.
+* **Streamlit error?** → Ensure `prob_summary.csv` exists first.
+* **Ticker failed?** → Use menu option `[2]` to retry failed downloads.
 
 ---
 
 ## ❓ FAQ
 
 **How do I add new tickers?**
-Add them to your presets (or just run ETL with your desired symbols). The menu aggregates all preset lists.
-
-**How do I change `Top-N`?**
-Edit `default_top_n` in `config.yaml` (or the parameter used in `train_direction.py`).
-
-**Can I change the bar interval?**
-Yes: set `interval` in `config.yaml` (e.g., `1d`, `1wk`, `1mo`).
+→ Add them to the config or run with custom presets.
 
 **Where are outputs saved?**
 
-* Transformed CSVs → `data/raw/`
-* Classification summary → `models/prob_summary.csv`
-* Traces → `models/traces/`
-* Heatmap preview → `images/heatmap_probs.png`
+* `data/raw/*.csv`: enriched OHLCV
+* `models/prob_summary.csv`: final output
+* `models/traces/*.csv`: optional per-ticker logs
+* `images/heatmap_probs.png`: preview
 
 ---
 
 ## 🗺️ Roadmap
 
-* Walk-forward CV and proper time-series splits
-* Probability calibration (Platt / Isotonic)
-* More models (XGBoost, LightGBM) and stacking
-* Position sizing / portfolio rules
-* Risk metrics and drawdown charts
-* Model registry & versioning
+* [ ] Add XGBoost / LightGBM support
+* [ ] Walk-forward cross-validation
+* [ ] Probability calibration (Platt / Isotonic)
+* [ ] Portfolio metrics: Sharpe, drawdown, win rate
+* [ ] Model versioning / registry
+* [ ] Alerts via email / Telegram (demo only)
 
 ---
 
 ## 📜 License & Disclaimer
 
-**MIT © 2025 — ShadowBlack33**
+**MIT License © 2025 – Carlos Andrés Orozco Caicedo**
 
-This repository is for educational purposes only and **does not constitute financial advice**. Use at your own risk.
+> This repository is provided for educational and experimental purposes only.
+> **It does not constitute financial advice. Use at your own risk.**
 
 ---
 
-## 👤 Credits
+## 👤 Author
 
-**Carlos Andrés Orozco Caicedo** — Data Engineering & AI — Colombia 🇨🇴
+**Carlos Andrés Orozco Caicedo**
+*Data Engineering & Machine Learning · Colombia 🇨🇴*
+
+* Developer of the full IA-FINANCIERA pipeline.
+* Specialized in ML pipelines, ETL processes, automation, and financial analytics.
