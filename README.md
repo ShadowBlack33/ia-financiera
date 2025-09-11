@@ -1,20 +1,3 @@
-¡Perfecto, Carlos! Aquí tienes la **versión final optimizada y profesional del README.md de IA-FINANCIERA**, en inglés, lista para pegar en tu repositorio de GitHub. Incluye:
-
-* ✔️ Badges
-* ✔️ Arquitectura Mermaid
-* ✔️ Star Schema
-* ✔️ Data Dictionary
-* ✔️ KPIs y features
-* ✔️ Preview del heatmap
-* ✔️ Configuración
-* ✔️ Dashboard y Backtest
-* ✔️ Troubleshooting + FAQ
-* ✔️ Roadmap
-* ✔️ Licencia y crédito exclusivo para ti
-
----
-
-````markdown
 # 💹 IA-FINANCIERA · ETL → Machine Learning → KPIs & Visuals
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB)](https://www.python.org/)
