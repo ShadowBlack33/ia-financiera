@@ -1,22 +1,37 @@
-
-name: CI
+name: CI - Backtest (Smoke)
 
 on:
   push:
+    branches: [ main, master ]
   pull_request:
+    branches: [ main, master ]
 
 jobs:
-  test:
+  backtest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      - name: Install deps
+          python-version: '3.10'
+
+      - name: Install pytest only
         run: |
           python -m pip install --upgrade pip
-          pip install -r ia-financiera/ia-financiera/requirements.txt
-      - name: Run tests
-        working-directory: ia-financiera/ia-financiera
-        run: pytest -q
+          pip install pytest
+
+      - name: Run CI backtest (deterministic)
+        run: python models/backtest_ci.py
+
+      - name: Smoke tests
+        run: pytest -k "smoke" -q
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backtest-ci-report
+          path: reports/backtest_ci_report.csv
+          if-no-files-found: error
