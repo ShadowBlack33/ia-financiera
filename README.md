@@ -287,5 +287,3 @@ CI Badge:
 Data Engineering & Machine Learning · Colombia 🇨🇴
 
 > Owner and developer of the full IA‑FINANCIERA pipeline — ETL, ML models, automation, dashboards and CI/CD.
-
-````
