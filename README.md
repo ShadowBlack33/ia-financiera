@@ -220,7 +220,7 @@ Features:
 
 ---
 
-## 📈 Backtest (optional)
+## 📈 Backtest
 
 ```bash
 python -m models.backtest
