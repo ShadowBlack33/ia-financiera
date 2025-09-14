@@ -1,4 +1,4 @@
-# 💹 IA-FINANCIERA · ETL → Machine Learning → KPIs & Visuals
+# 💹 AlphaQuant · ETL → Machine Learning → KPIs & Visuals
 ![CI](https://github.com/ShadowBlack33/ia-financiera/actions/workflows/ci.yml/badge.svg)
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB)](https://www.python.org/)
@@ -6,7 +6,7 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.x-f7931e)](https://scikit-learn.org/)
 [![streamlit](https://img.shields.io/badge/Streamlit-Dashboard-E64A19)](https://streamlit.io/)
 
-**End-to-end ML pipeline** for financial market direction. It extracts and transforms OHLCV time series, engineers technical indicators, trains classifiers, and produces **UP/DOWN** signals with KPIs and visuals.
+**AlphaQuant** is an end-to-end financial machine learning project that extracts and transforms OHLCV time series, engineers technical indicators, trains ensemble models, and produces **UP/DOWN** predictions with KPIs and interactive dashboards.
 
 > Data source: **Yahoo Finance** via `yfinance`.  
 > Visuals and predictions are generated from the transformed dataset (not from raw data).  
@@ -37,10 +37,10 @@
 
 ## 🎯 Goal
 
-- Implement a clean **ETL → ML** pipeline for **market direction classification**.
-- Predict **PROBA_UP** (probability of next move UP) via an **ensemble**.
-- Report **Top-N bullish / bearish** and a compact **probability summary**.
-- Generate a **heatmap** preview and an optional **interactive dashboard**.
+- Predict financial market direction (UP/DOWN) from OHLCV data.
+- Build a clean ETL + ML pipeline with model ensembles and dashboards.
+- Produce ranked signals, summary metrics, and performance visuals.
+- Ensure full reproducibility with CI/CD automation.
 
 ---
 
@@ -58,14 +58,14 @@
 
 ## ✨ Features
 
-- 🔁 **ETL**: download, transform, deduplicate, and enrich OHLCV time series.
-- 🧪 **Indicators**: RSI, MACD, EMA/SMA, Bollinger Bands, ATR, etc.
-- 🤖 **Classification**: LogisticRegression + RandomForest → **Ensemble (PROBA_UP)**.
-- 📊 **Top-N** (calls/puts), `models/prob_summary.csv`, **colored console** output.
-- 🖼️ **Heatmap PNG** for quick overview.
-- 🖥️ **Streamlit dashboard** (interactive, optional).
-- 🧾 **Logging** (with auto-cleanup) + seed utilities.
-- ✅ **CI via GitHub Actions** with deterministic backtest + smoke test.
+- 🔁 ETL from Yahoo Finance
+- 🧪 Technical indicators: RSI, MACD, SMA, EMA, Bollinger, ATR, etc.
+- 🤖 Ensemble classifier: LogisticRegression + RandomForest → `PROBA_UP`
+- 📊 Top-N bullish/bearish assets with CSV summary
+- 🌡️ Heatmap of ensemble probabilities
+- 🖥️ Streamlit dashboard (optional)
+- 📄 Logging, automated reports, console highlights
+- ✅ CI with smoke tests and backtest integration
 
 ---
 
@@ -286,4 +286,4 @@ CI Badge:
 **Carlos Andrés Orozco Caicedo**
 Data Engineering & Machine Learning · Colombia 🇨🇴
 
-> Owner and developer of the full IA‑FINANCIERA pipeline — ETL, ML models, automation, dashboards and CI/CD.
+> Creator of AlphaQuant — full-stack ML pipeline with reproducibility, CI/CD, and real-time dashboards.
